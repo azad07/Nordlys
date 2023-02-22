@@ -1,0 +1,72 @@
+{
+    "workbench.colorTheme": "Gruvbox Dark (Hard)",
+    "xmlTools.enforcePrettySelfClosingTagOnFormat": true,
+    "editor.minimap.enabled": false,
+    "terminal.integrated.fontWeight": "1",
+    "editor.fontSize": 16,
+    "editor.fontWeight": "1",
+    "workbench.editor.showTabs": true,
+    "workbench.activityBar.visible": true,
+    "workbench.colorCustomizations": {
+        "editorCursor.foreground": "#00ff33",
+        "editor.lineHighlightBackground": "#111144"
+    },
+    "workbench.statusBar.visible": true,
+    "editor.lineNumbers": "on",
+    "editor.cursorStyle": "block",
+    "window.zoomLevel": 1,
+    "editor.tabCompletion": "on",
+    "todohighlight.isEnable": true,
+    "todohighlight.keywords": [
+        {
+            "text": "TODO:",
+            "color": "red",
+            "backgroundColor": "rgba(0,0,0,0)",
+            "overviewRulerColor": "rgba(0,0,0,0)"
+        },
+        {
+            "text": "TODO(travis):",
+            "color": "red",
+            "backgroundColor": "rgba(0,0,0,0)",
+            "overviewRulerColor": "rgba(0,0,0,0)"
+        },
+        {
+            "text": "HACK:",
+            "color": "#ff6600",
+            "backgroundColor": "rgba(0,0,0,0)",
+            "overviewRulerColor": "rgba(0,0,0,0)"
+        },
+        {
+            "text": "NOTE:",
+            "color": "green",
+            "backgroundColor": "rgba(0,0,0,0)",
+            "overviewRulerColor": "rgba(0,0,0,0)"
+        }
+    ],
+    "todohighlight.defaultStyle": {
+        "color": "red",
+        //"backgroundColor": "#ffab00",
+        "overviewRulerColor": "rgba(0,0,0,0)",
+        "isWholeLine": false,
+    },
+    // File copyright documentation tag.  Array of strings will be converted to one line per element.  Can template {year}.
+    "doxdocgen.file.copyrightTag": [
+        "@copyright Nordlys Game Engine is Copyright (c) Ashish Azad 2022-{year}"
+    ],
+    "doxdocgen.file.versionTag": "@version 1.0",
+    "doxdocgen.generic.authorEmail": "ashish.azad07@gmail.com",
+    "doxdocgen.generic.authorName": "Ashish Azad",
+    "doxdocgen.generic.authorTag": "@author {author} ({email})",
+    // The order to use for the file comment. Values can be used multiple times. Valid values are shown in default setting.
+    "doxdocgen.file.fileOrder": [
+        "file",
+        "author",
+        "brief",
+        "version",
+        "date",
+        "empty",
+        "copyright",
+        "empty",
+        "custom"
+    ],
+}
