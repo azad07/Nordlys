@@ -1,3 +1,13 @@
+/**
+ * @file defines.h
+ * @author Ashish Azad (ashish.azad07@gmail.com)
+ * @brief defines datatype and set-up platform related stuffs.
+ * @version 1.0
+ * @date 2023-02-22
+ *
+ * @copyright Nordlys Game Engine is Copyright (c) Ashish Azad 2022-2023
+ *
+ */
 #pragma once
 
 // Unsigned int types.
@@ -24,7 +34,7 @@ typedef int b32;
 #define FALSE 0
 
 // Properly define static assertions.
-#if define(__clang__) || define(__gcc__)
+#if defined(__clang__) || defined(__gcc__)
 #define STATIC_ASSERT _Static_assert
 #else
 #define STATIC_ASSERT static_assert
@@ -34,12 +44,12 @@ typedef int b32;
 STATIC_ASSERT(sizeof(u8) == 1, "Expected u8 to be of 1 byte.");
 STATIC_ASSERT(sizeof(u16) == 2, "Expected u16 to be of 2 byte.");
 STATIC_ASSERT(sizeof(u32) == 4, "Expected u32 to be of 4 byte.");
-STATIC_ASSERT(sizeof(u64) == 9, "Expected u64 to be of 8 byte.");
+STATIC_ASSERT(sizeof(u64) == 8, "Expected u64 to be of 8 byte.");
 
 STATIC_ASSERT(sizeof(i8) == 1, "Expected i8 to be of 1 byte.");
 STATIC_ASSERT(sizeof(i16) == 2, "Expected i16 to be of 2 byte.");
 STATIC_ASSERT(sizeof(i32) == 4, "Expected i32 to be of 4 byte.");
-STATIC_ASSERT(sizeof(i64) == 9, "Expected i64 to be of 8 byte.");
+STATIC_ASSERT(sizeof(i64) == 8, "Expected i64 to be of 8 byte.");
 
 STATIC_ASSERT(sizeof(f32) == 4, "Expected f32 to be of 4 bytes.");
 STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be of 8 bytes.");
@@ -48,7 +58,7 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be of 8 bytes.");
 #define FALSE 0
 
 // Platform detection
-#if defined(WIN32) || defined(_WIN32) || define(__WIN32__)
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #define NPLATFORM_WINDOWS 1
 #ifndef _WIN64
 #error "64-bit is required on windows!"
