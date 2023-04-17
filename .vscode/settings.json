@@ -2,7 +2,6 @@
     "workbench.colorTheme": "Gruvbox Dark (Hard)",
     "xmlTools.enforcePrettySelfClosingTagOnFormat": true,
     "editor.minimap.enabled": false,
-    "terminal.integrated.fontWeight": "1",
     "workbench.editor.showTabs": true,
     "workbench.activityBar.visible": true,
     "workbench.colorCustomizations": {
@@ -12,7 +11,6 @@
     "workbench.statusBar.visible": true,
     "editor.lineNumbers": "on",
     "editor.cursorStyle": "block",
-    "window.zoomLevel": 1,
     "editor.tabCompletion": "on",
     "todohighlight.isEnable": true,
     "todohighlight.keywords": [
@@ -23,7 +21,7 @@
             "overviewRulerColor": "rgba(0,0,0,0)"
         },
         {
-            "text": "TODO(travis):",
+            "text": "TODO(ashish):",
             "color": "red",
             "backgroundColor": "rgba(0,0,0,0)",
             "overviewRulerColor": "rgba(0,0,0,0)"
