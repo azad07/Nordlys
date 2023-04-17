@@ -19,6 +19,19 @@
  */
 #define NASSERTIONS_ENABLED
 
+/**
+ * @brief Disable backtrace printing by commenting out the below declarations.
+ *
+ */
+#define NBACKTRACE_ENABLED
+
+#ifdef NBACKTRACE_ENABLED
+void print_backtrace(void);
+#define PRINT_BACKTRACE() print_backtrace()
+#else
+#define PRINT_BACKTRACE() /* Does Nothing. */
+#endif
+
 #ifdef NASSERTIONS_ENABLED
 
 #if _MSC_VER
@@ -38,6 +51,7 @@ NAPI void report_assertion_failure(const char *expression, const char *message, 
         else                                                         \
         {                                                            \
             report_assertion_failure(#expr, "", __FILE__, __LINE__); \
+            PRINT_BACKTRACE();                                       \
             debugBreak();                                            \
         }                                                            \
     }
@@ -50,6 +64,7 @@ NAPI void report_assertion_failure(const char *expression, const char *message, 
         else                                                              \
         {                                                                 \
             report_assertion_failure(#expr, message, __FILE__, __LINE__); \
+            PRINT_BACKTRACE();                                            \
             debugBreak();                                                 \
         }                                                                 \
     }
@@ -63,6 +78,7 @@ NAPI void report_assertion_failure(const char *expression, const char *message, 
         else                                                         \
         {                                                            \
             report_assertion_failure(#expr, "", __FILE__, __LINE__); \
+            PRINT_BACKTRACE();                                       \
             debugBreak();                                            \
         }                                                            \
     }
