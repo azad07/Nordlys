@@ -9,12 +9,19 @@
  *
  */
 
-#include <test.h>
+#include <core/asserts.h>
+#include <core/logger.h>
 
 int main()
 {
-    print_int(45);
-    print_float(45.0);
+    NFATAL("A test message: %f", 3.14f);
+    NERROR("A test message: %f", 3.14f);
+    NWARN("A test message: %f", 3.14f);
+    NINFO("A test message: %f", 3.14f);
+    NDEBUG("A test message: %f", 3.14f);
+    NTRACE("A test message: %f", 3.14f);
+
+    NASSERT(1 == 0);
 
     return 0;
 }

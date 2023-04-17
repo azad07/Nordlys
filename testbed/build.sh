@@ -13,12 +13,12 @@ cFilenames=$(find . -type f -name "*.c")
 # echo "Files:" $cFilenames
 
 assembly="testbed"
-compilerFlags="-g "
+compilerFlags="-g -rdynamic "
 # -fms-extensions 
 # -Wall -Werror
 includeFlags="-Isrc -I$VULKAN_SDK/include -I../engine/src"
 linkerFlags="-L./../bin/ -lengine"
-defines="-D_DEBUG -DIEXPORT"
+defines="-D_DEBUG -DNEXPORT"
 
 echo "$(tput setaf 1)Building $assembly...$(tput setaf 7)"
 clang $cFilenames $compilerFlags -o ../bin/$assembly $defines $includeFlags $linkerFlags

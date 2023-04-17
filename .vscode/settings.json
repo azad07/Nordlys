@@ -3,8 +3,6 @@
     "xmlTools.enforcePrettySelfClosingTagOnFormat": true,
     "editor.minimap.enabled": false,
     "terminal.integrated.fontWeight": "1",
-    "editor.fontSize": 16,
-    "editor.fontWeight": "1",
     "workbench.editor.showTabs": true,
     "workbench.activityBar.visible": true,
     "workbench.colorCustomizations": {
@@ -71,4 +69,7 @@
         "empty",
         "custom"
     ],
+    "files.associations": {
+        "asserts.h": "c"
+    },
 }
