@@ -13,7 +13,7 @@ cFilenames=$(find . -type f -name "*.c")
 # echo "Files:" $cFilenames
 
 assembly="engine"
-compilerFlags="-g -shared -fdeclspec -fPIC"
+compilerFlags="-g -shared -fdeclspec -fPIC -rdynamic"
 # -fms-extensions 
 # -Wall -Werror
 includeFlags="-Isrc -I$VULKAN_SDK/include"
