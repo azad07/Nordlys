@@ -1,17 +1,10 @@
 {
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: clang build active file",
-            "command": "/usr/bin/clang",
-            "args": [
-                "-fcolor-diagnostics",
-                "-fansi-escape-codes",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
+            "type": "shell",
+            "label": "build vulkan",
+            "command": "${workspaceRoot}/build-all.sh",
+            "args": [],
             "options": {
                 "cwd": "${fileDirname}"
             },

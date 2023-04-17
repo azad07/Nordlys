@@ -2,7 +2,7 @@
 # Build script for engine
 set echo on
 
-mkdir -pv ../bin
+#mkdir -pv ../bin
 
 # set vulkan sdk path.
 source /Users/ashishazad/VulkanSDK/1.3.236.0/setup-env.sh
@@ -20,5 +20,5 @@ includeFlags="-Isrc -I$VULKAN_SDK/include"
 linkerFlags="-lvulkan  -L$VULKAN_SDK/lib"
 defines="-D_DEBUG -DNEXPORT"
 
-echo "Building $assembly..."
+echo "$(tput setaf 1)Building $assembly...$(tput setaf 7)"
 clang $cFilenames $compilerFlags -o ../bin/lib$assembly.so $defines $includeFlags $linkerFlags

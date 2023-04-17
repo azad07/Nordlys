@@ -2,7 +2,10 @@
 # Build script for engine
 set echo on
 
-echo "Building everything..."
+
+cd /Users/ashishazad/Desktop/Nordlys/Nordlys
+
+echo "$(tput setaf 1)Building everything.....$(tput setaf 7)"
 
 pushd engine
 ./build.sh
