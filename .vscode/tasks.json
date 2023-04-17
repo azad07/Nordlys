@@ -3,7 +3,8 @@
         {
             "type": "shell",
             "label": "build vulkan",
-            "command": "${workspaceRoot}/build-all.sh",
+          //  "command": "${workspaceRoot}/build-all.sh",
+          "command": "${workspaceRoot}/build-all-macos.sh",
             "args": [],
             "options": {
                 "cwd": "${fileDirname}"

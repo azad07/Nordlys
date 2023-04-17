@@ -1,0 +1,23 @@
+#!/bin/bash
+set echo on
+
+# TODO: fix this.
+cd /Users/ashishazad/Desktop/Nordlys/Nordlys
+echo "Cleaning everything..."
+
+make -f Makefile.engine.macos.mak clean
+
+ERRORLEVEL=$?
+if [ $ERRORLEVEL -ne 0 ]
+then
+echo "Error:"$ERRORLEVEL && exit
+fi
+
+make -f Makefile.testbed.macos.mak clean
+ERRORLEVEL=$?
+if [ $ERRORLEVEL -ne 0 ]
+then
+echo "Error:"$ERRORLEVEL && exit
+fi
+
+echo "All assemblies cleaned successfully."

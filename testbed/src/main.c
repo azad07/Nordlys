@@ -12,6 +12,13 @@
 #include <core/asserts.h>
 #include <core/logger.h>
 
+#include <platform/platform.h>
+
+const i32 x_pos = 100;
+const i32 y_pos = 100;
+const i32 window_width = 1280;
+const i32 window_height = 720;
+
 int main()
 {
     NFATAL("A test message: %f", 3.14f);
@@ -21,7 +28,16 @@ int main()
     NDEBUG("A test message: %f", 3.14f);
     NTRACE("A test message: %f", 3.14f);
 
-    NASSERT(1 == 0);
+    platform_state state;
+    if (platform_initialize(&state, "Nordlys Engine Testbed", x_pos, y_pos,
+                            window_width, window_height))
+    {
+        while (TRUE)
+        {
+            platform_pump_messages(&state);
+        }
+    }
+    platform_shutdown(&state);
 
     return 0;
 }
