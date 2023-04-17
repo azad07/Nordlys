@@ -33,12 +33,12 @@ typedef struct platform_state
  * @param height height of the application.
  * @return true if success, otherwise false.
  */
-NAPI b8 platform_initialize(platform_state *p_state,
-                            const char *application_name,
-                            i32 x_pos,
-                            i32 y_pos,
-                            i32 width,
-                            i32 height);
+b8 platform_initialize(platform_state *p_state,
+                       const char *application_name,
+                       i32 x_pos,
+                       i32 y_pos,
+                       i32 width,
+                       i32 height);
 
 /**
  * @brief Clean up all the states related to platform.
@@ -46,12 +46,12 @@ NAPI b8 platform_initialize(platform_state *p_state,
  * @param p_state platform internal state.
  * @return void
  */
-NAPI void platform_shutdown(platform_state *p_state);
+void platform_shutdown(platform_state *p_state);
 
-NAPI b8 platform_pump_messages(platform_state *p_state);
+b8 platform_pump_messages(platform_state *p_state);
 
-void *platform_allocate(u64 size, b8 alligned);
-void platform_free(void *block, b8 alligned);
+NAPI void *platform_allocate(u64 size, b8 alligned);
+NAPI void platform_free(void *block, b8 alligned);
 void *platform_zero_memory(void *block, u64 size);
 void *platform_copy_memory(void *dest, const void *src, u64 size);
 void *platform_set_memory(void *dest, i32 value, u64 size);
