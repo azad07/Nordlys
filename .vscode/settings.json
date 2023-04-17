@@ -51,12 +51,14 @@
     },
     // File copyright documentation tag.  Array of strings will be converted to one line per element.  Can template {year}.
     "doxdocgen.file.copyrightTag": [
-        "@copyright Nordlys Game Engine is Copyright (c) Ashish Azad 2022-{year}"
+        "@copyright Nordlys Game Engine is Copyright (c) Ashish Azad 2023."
     ],
     "doxdocgen.file.versionTag": "@version 1.0",
     "doxdocgen.generic.authorEmail": "ashish.azad07@gmail.com",
     "doxdocgen.generic.authorName": "Ashish Azad",
     "doxdocgen.generic.authorTag": "@author {author} ({email})",
+    "doxdocgen.generic.dateFormat": "YYYY-MM-DD",
+    "doxdocgen.generic.useGitUserName": true,
     // The order to use for the file comment. Values can be used multiple times. Valid values are shown in default setting.
     "doxdocgen.file.fileOrder": [
         "file",

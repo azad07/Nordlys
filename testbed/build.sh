@@ -22,3 +22,4 @@ defines="-D_DEBUG -DIEXPORT"
 
 echo "$(tput setaf 1)Building $assembly...$(tput setaf 7)"
 clang $cFilenames $compilerFlags -o ../bin/$assembly $defines $includeFlags $linkerFlags
+echo "$(tput setaf 2)Build $assembly successful...$(tput setaf 7)"

@@ -16,3 +16,8 @@ void print_int(i32 i)
 {
     printf("The number is: %d\n", i);
 }
+
+void print_float(f32 f)
+{
+    printf("The number is: %f\n", f);
+}

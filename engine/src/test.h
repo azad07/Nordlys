@@ -20,3 +20,11 @@
  * @return NAPI
  */
 NAPI void print_int(i32 i);
+
+/**
+@brief
+ *
+ * @param f
+ * @return NAPI
+ */
+NAPI void print_float(float f);
