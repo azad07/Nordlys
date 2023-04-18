@@ -50,13 +50,18 @@ void platform_shutdown(platform_state *p_state);
 
 b8 platform_pump_messages(platform_state *p_state);
 
-NAPI void *platform_allocate(u64 size, b8 alligned);
-NAPI void platform_free(void *block, b8 alligned);
+void *platform_allocate(u64 size, b8 alligned);
+
+void platform_free(void *block, b8 alligned);
+
 void *platform_zero_memory(void *block, u64 size);
+
 void *platform_copy_memory(void *dest, const void *src, u64 size);
+
 void *platform_set_memory(void *dest, i32 value, u64 size);
 
 void platform_console_write(const char *message, u8 color);
+
 void platform_console_write_error(const char *message, u8 color);
 
 /**

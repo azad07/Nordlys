@@ -15,6 +15,7 @@
 #include "logger.h"
 
 #include "platform/platform.h"
+#include "core/nmemory.h"
 
 typedef struct application_state
 {
@@ -79,6 +80,8 @@ b8 application_create(struct game *game_instance)
 
 b8 application_run()
 {
+    NINFO(get_memory_usage_str());
+
     while (app_state.is_running)
     {
         if (!platform_pump_messages(&app_state.platform))

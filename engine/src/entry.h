@@ -13,6 +13,7 @@
 
 #include "core/application.h"
 #include "core/logger.h"
+#include "core/nmemory.h"
 #include "game_types.h"
 
 /**
@@ -23,6 +24,9 @@ extern b8 create_game(game *out_game);
 
 int main(void)
 {
+    /* Memory system initialization. */
+    initialize_memory();
+
     /* Request the game instance from the application. */
     game game_instance;
     if (!create_game(&game_instance))
@@ -52,6 +56,8 @@ int main(void)
         NINFO("Application did not shut down gracefully.");
         return 2;
     }
+
+    shutdown_memory();
 
     return 0;
 }
