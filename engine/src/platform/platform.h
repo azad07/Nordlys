@@ -14,7 +14,7 @@
 #include "defines.h"
 
 /**
- * @brief struct for platform specific definitions.
+ * @brief struct for platform specific definition.
  *
  */
 typedef struct platform_state
