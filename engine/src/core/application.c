@@ -16,6 +16,7 @@
 
 #include "platform/platform.h"
 #include "core/nmemory.h"
+#include "core/event.h"
 
 typedef struct application_state
 {
@@ -54,6 +55,13 @@ b8 application_create(struct game *game_instance)
 
     app_state.is_running = TRUE;
     app_state.is_suspended = FALSE;
+
+    /* Initialize event system. */
+    if(event_initialize() == FALSE)
+    {
+        NERROR("Evnet System FAILED initialization. Shuting Down applcation.");
+        return FALSE;
+    }
 
     if (!platform_initialize(&app_state.platform,
                              game_instance->app_config.name,
@@ -110,6 +118,9 @@ b8 application_run()
     }
 
     app_state.is_running = FALSE;
+
+    /* Shuting down event system. */
+    event_shutdown();
 
     platform_shutdown(&app_state.platform);
     return TRUE;

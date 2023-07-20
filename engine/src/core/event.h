@@ -11,6 +11,8 @@
 
  #pragma once
 
+ #include "defines.h"
+
  typedef struct event_context {
     // 128 bytes event.
     union
@@ -70,22 +72,24 @@ void event_shutdown();
 NAPI b8 event_register(u16 code, void* listener_instance, PFN_on_event on_event);
 
 /**
- * @brief 
+ * @brief Unregister from listening when events are send with the provided code.
+ * If no matching registration is found, this function returns FALSE.
  * 
- * @param code 
- * @param listener_instance 
- * @param on_evnet 
- * @return NAPI 
+ * @param code The event code to stop listening for.
+ * @param listener_instance Pointer to the listener instance.
+ * @param on_evnet callback function pointer to be un-register.
+ * @return TRUE if the event code is successfully un-register, otherwise FALSE.
  */
 NAPI b8 event_unregister(u16 code, void* listener_instance, PFN_on_event on_evnet);
 
 /**
- * @brief 
+ * @brief Fires an event to listeners of the given event code. If an event handlers
+ * returns TRUE, the evnet is considered to be handled and will not propagate to any more listeners.
  * 
- * @param code 
- * @param sender 
- * @param eContext 
- * @return NAPI 
+ * @param code event code to fire. 
+ * @param sender Pointer to the sender. Can be 0/NULL.
+ * @param eContext event data.
+ * @return TRUE if handled, otherwise FALSE.
  */
 NAPI b8 event_fire(u16 code, void* sender, event_context eContext);
 
