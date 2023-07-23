@@ -17,6 +17,7 @@
 #include "platform/platform.h"
 #include "core/nmemory.h"
 #include "core/event.h"
+#include "core/input.h"
 
 typedef struct application_state
 {
@@ -44,6 +45,13 @@ b8 application_create(struct game *game_instance)
 
     /* Initialize subsystems. */
     logging_initialize();
+
+    /* Initialize input system. */
+    if(!input_initialize())
+    {
+        /* Game can continue rendering, but there will be no control. */
+        NDEBUG("Input sytem initialization failed, keyboard/moure/other input will not work.");
+    }
 
     // TODO: remove this.
     NFATAL("A test message: %f", 3.14f);
@@ -115,12 +123,23 @@ b8 application_run()
             app_state.is_running = FALSE;
             break;
         }
+
+        /* NOTE: Input update/state copying should always be handled, after any 
+         *       input is recorded, i.e. before this line.
+         *       input is last thing to be update before this frame ends.
+         *       delta_time is 0 as of now, might be needed in future, in scenario,
+         *       like discard some input if delta_time crosses frame threshold.
+         */
+         input_update(0 /* delta_time */);
     }
 
     app_state.is_running = FALSE;
 
     /* Shuting down event system. */
     event_shutdown();
+    
+    /* Shuting down input system. */
+    input_shutdown();
 
     platform_shutdown(&app_state.platform);
     return TRUE;
