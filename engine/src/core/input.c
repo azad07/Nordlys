@@ -102,7 +102,7 @@ void input_process_mouse_move(i32 x, i32 y) {
         state.mouse_current.y != y) 
     {
         /* NOTE: enable this for mouse debugging. */
-        //KDEBUG("Mouse pos: %i, %i!", x, y);
+        //NDEBUG("Mouse pos: %i, %i!", x, y);
         
         /* update internal state. */
         state.mouse_current.x = x;
@@ -115,8 +115,12 @@ void input_process_mouse_move(i32 x, i32 y) {
         event_fire(EVENT_CODE_MOUSE_MOVED, 0, context);
     }
 }
-void input_process_mouse_wheel(i8 z_delta)
+
+void input_process_mouse_wheel(i8 z_delta) 
 {
+    /* NOTE: enable this for mouse wheel debugging. */
+    //NDEBUG(" Mouse wheel moved: %i", z_delta);
+
     /* NOTE: no internal event to update. */
 
     /* Fire the event. */

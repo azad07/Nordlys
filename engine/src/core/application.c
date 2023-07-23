@@ -10,6 +10,7 @@
  */
 
 #include "application.h"
+#include "event.h"
 #include "game_types.h"
 
 #include "logger.h"
@@ -32,6 +33,10 @@ typedef struct application_state
 
 static b8 initialized = FALSE;
 static application_state app_state;
+
+/* Event handlers. */
+b8 application_on_evnent(u16 code, void* sender, void* listener, event_context context);
+b8 application_on_keyboard_event(u16 code, void* sender, void* listerner, event_context context);
 
 b8 application_create(struct game *game_instance)
 {
@@ -70,6 +75,11 @@ b8 application_create(struct game *game_instance)
         NERROR("Evnet System FAILED initialization. Shuting Down applcation.");
         return FALSE;
     }
+
+    /* Register events */
+    event_register(EVENT_CODE_APPLICATION_SHUTDOWN, 0 , application_on_evnent);
+    event_register(EVENT_CODE_KEY_PRESSED, 0, application_on_keyboard_event);
+    event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_keyboard_event);
 
     if (!platform_initialize(&app_state.platform,
                              game_instance->app_config.name,
@@ -135,7 +145,10 @@ b8 application_run()
 
     app_state.is_running = FALSE;
 
-    /* Shuting down event system. */
+    /* Shuting down event system and unregister all the event registered to it. */
+    event_unregister(EVENT_CODE_APPLICATION_SHUTDOWN, 0 , application_on_evnent);
+    event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_keyboard_event);
+    event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_keyboard_event);
     event_shutdown();
     
     /* Shuting down input system. */
@@ -143,4 +156,60 @@ b8 application_run()
 
     platform_shutdown(&app_state.platform);
     return TRUE;
+}
+
+b8 application_on_evnent(u16 code, void* sender, void* listener, event_context context) {
+    /* TODO: Fix UNUSED variable for compile warnings. */
+    switch (code) {
+    case EVENT_CODE_APPLICATION_SHUTDOWN:
+    {
+        NINFO("CODE_APPLICATION_SHUTDOWN received, shutting down application.. taa taa, baa, baa. ");
+        app_state.is_running = FALSE;
+        /* Don't propogate event further. */
+        return TRUE;
+    }
+    }
+    /* Propogae this event for further processing, let other listener to get this event. */
+    return FALSE;
+}
+
+b8 application_on_keyboard_event(u16 code, void* sender, void* listerner, event_context context)
+{
+    if(code == EVENT_CODE_KEY_PRESSED)
+    {
+        u16 key_code = context.data.u16[0];
+        if(key_code == KEY_ESCAPE)
+        {
+            /* NOTE: firing an event to itself, but there may be other listeners. */
+            event_context context = {};
+            event_fire(EVENT_CODE_APPLICATION_SHUTDOWN, 0, context);
+
+            /* blocking anything else from proceessing this, as this should be handle by engine to close up everything. */
+            return TRUE;
+        }
+        else if (key_code == KEY_A)
+        {
+            /* NOTE: example for checking for a key. */
+            NTRACE("Explicit - A key pressed. ");
+        }
+        else{
+            NTRACE(" '%c' key pressed in window.", key_code);
+        }
+    }
+    else if ( code == EVENT_CODE_KEY_RELEASED)
+    {
+        u16 key_code = context.data.u16[0];
+        if(key_code == KEY_B)
+        {
+            /* NOTE: example for checking on release key. */
+            NTRACE("Explicit - B key released. ");
+        }
+        else
+        {
+            NTRACE(" '%c' key released in window.", key_code);
+        }
+    }
+
+    /* Propogae this event for further processing, let other listener to get this event. */
+    return FALSE;
 }

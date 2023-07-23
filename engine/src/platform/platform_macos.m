@@ -3,6 +3,7 @@
 #if defined(NPLATFORM_APPLE)
 
 #include "core/logger.h"
+#include "core/input.h"
 
 #include <crt_externs.h>
 #include <mach/mach_time.h>
@@ -30,7 +31,7 @@ typedef struct internal_state {
 } internal_state;
 
 // Key translation
-// FIXME: keys translate_keycode(u32 ns_keycode);
+keys translate_keycode(u32 ns_keycode);
 
 @interface WindowDelegate : NSObject <NSWindowDelegate> {
   internal_state *state;
@@ -131,7 +132,7 @@ typedef struct internal_state {
 }
 
 - (void)mouseDown:(NSEvent *)event {
-  // FIXME: input_process_button(BUTTON_LEFT, TRUE);
+  input_process_mouse_button(BUTTON_LEFT, TRUE);
 }
 
 - (void)mouseDragged:(NSEvent *)event {
@@ -140,17 +141,17 @@ typedef struct internal_state {
 }
 
 - (void)mouseUp:(NSEvent *)event {
-  // FIXME: input_process_button(BUTTON_LEFT, FALSE);
+  input_process_mouse_button(BUTTON_LEFT, FALSE);
 }
 
 - (void)mouseMoved:(NSEvent *)event {
   const NSPoint pos = [event locationInWindow];
 
-  // FIXME: input_process_mouse_move((i16)pos.x, (i16)pos.y);
+  input_process_mouse_move((i16)pos.x, (i16)pos.y);
 }
 
 - (void)rightMouseDown:(NSEvent *)event {
-  // FIXME: input_process_button(BUTTON_RIGHT, TRUE);
+  input_process_mouse_button(BUTTON_RIGHT, TRUE);
 }
 
 - (void)rightMouseDragged:(NSEvent *)event {
@@ -159,12 +160,12 @@ typedef struct internal_state {
 }
 
 - (void)rightMouseUp:(NSEvent *)event {
-  // FIXME: input_process_button(BUTTON_RIGHT, FALSE);
+  input_process_mouse_button(BUTTON_RIGHT, FALSE);
 }
 
 - (void)otherMouseDown:(NSEvent *)event {
   // Interpreted as middle click
-  // FIXME: input_process_button(BUTTON_MIDDLE, TRUE);
+  input_process_mouse_button(BUTTON_MIDDLE, TRUE);
 }
 
 - (void)otherMouseDragged:(NSEvent *)event {
@@ -174,25 +175,25 @@ typedef struct internal_state {
 
 - (void)otherMouseUp:(NSEvent *)event {
   // Interpreted as middle click
-  // FIXME: input_process_button(BUTTON_MIDDLE, FALSE);
+  input_process_mouse_button(BUTTON_MIDDLE, FALSE);
 }
 
 - (void)keyDown:(NSEvent *)event {
-  // FIXME: keys key = translate_keycode((u32)[event keyCode]);
+  keys key = translate_keycode((u32)[event keyCode]);
 
-  // FIXME: input_process_key(key, TRUE);
+  input_process_keyboard_key(key, TRUE);
 
   [self interpretKeyEvents:@[ event ]];
 }
 
 - (void)keyUp:(NSEvent *)event {
-  // FIXME: keys key = translate_keycode((u32)[event keyCode]);
+  keys key = translate_keycode((u32)[event keyCode]);
 
-  // FIXME: input_process_key(key, FALSE);
+  input_process_keyboard_key(key, FALSE);
 }
 
 - (void)scrollWheel:(NSEvent *)event {
-  // FIXME: input_process_mouse_wheel((i8)[event scrollingDeltaY]);
+  input_process_mouse_wheel((i8)[event scrollingDeltaY]);
 }
 
 - (void)insertText:(id)string replacementRange:(NSRange)replacementRange {
@@ -472,8 +473,6 @@ b8 platform_create_vulkan_surface(platform_state *plat_state,
 }
 */
 
-// FIXME:
-/*
 keys translate_keycode(u32 ns_keycode) {
   switch (ns_keycode) {
   case 0x1D:
@@ -707,6 +706,5 @@ keys translate_keycode(u32 ns_keycode) {
     return KEYS_MAX_KEYS;
   }
 }
-*/
 
 #endif // NPLATFORM_APPLE
