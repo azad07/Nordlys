@@ -19,6 +19,7 @@
 #include "core/nmemory.h"
 #include "core/event.h"
 #include "core/input.h"
+#include "core/timer.h"
 
 typedef struct application_state
 {
@@ -28,6 +29,7 @@ typedef struct application_state
     platform_state platform;
     i16 width;
     i16 height;
+    timer timer;
     f64 last_time;
 } application_state;
 
@@ -106,6 +108,14 @@ b8 application_create(struct game* game_instance)
 
 b8 application_run()
 {
+    timer_start(&app_state.timer);
+    timer_update(&app_state.timer);
+    app_state.last_time = app_state.timer.elapsed;
+
+    f64 running_time = 0;
+    u8 frame_count = 0;
+    f64 target_frame_second = 1.0f / 60;
+
     NINFO(get_memory_usage_str());
 
     while (app_state.is_running)
@@ -117,30 +127,59 @@ b8 application_run()
 
         if (!app_state.is_suspended)
         {
-            if (!app_state.game_instance->update(app_state.game_instance,
-                                                 (f32)0))
+            /* update time and get delta time. */
+            timer_update(&app_state.timer);
+            f64 current_time = app_state.timer.elapsed;
+            f64 delta_time = current_time - app_state.last_time;
+            f64 frame_start_time = platform_get_absolute_time();
+
+            /* call the game's update routine. */
+            if (!app_state.game_instance->update(app_state.game_instance, (f32)delta_time))
             {
                 NFATAL("Game update failed, Shutting down...");
                 app_state.is_running = FALSE;
                 break;
             }
-        }
 
-        /* Call the game's render routine. */
-        if (!app_state.game_instance->render(app_state.game_instance, (f32)0))
-        {
-            NFATAL("Game render failed, Shutting down...");
-            app_state.is_running = FALSE;
-            break;
-        }
+            /* Call the game's render routine. */
+            if (!app_state.game_instance->render(app_state.game_instance, (f32)delta_time))
+            {
+                NFATAL("Game render failed, Shutting down...");
+                app_state.is_running = FALSE;
+                break;
+            }
 
-        /* NOTE: Input update/state copying should always be handled, after any
-         *       input is recorded, i.e. before this line.
-         *       input is last thing to be update before this frame ends.
-         *       delta_time is 0 as of now, might be needed in future, in scenario,
-         *       like discard some input if delta_time crosses frame threshold.
-         */
-        input_update(0 /* delta_time */);
+            /* Figure out how long the frame took. */
+            f64 frame_end_time = platform_get_absolute_time();
+            f64 frame_elapsed_time = frame_end_time - frame_start_time;
+            running_time += frame_elapsed_time;
+            f64 remaining_seconds = target_frame_second - frame_elapsed_time;
+
+            if (remaining_seconds > 0)
+            {
+                u64 remaining_ms = (remaining_seconds * 1000);
+
+                /* If there is time left, give it back to OS. */
+                b8 limit_frames = FALSE;
+                if (remaining_ms > 0 && limit_frames)
+                {
+                    platform_sleep(remaining_ms - 1);
+                }
+
+                ++frame_count;
+            }
+
+            /* NOTE: Input update/state copying should always be handled, after any
+             *       input is recorded, i.e. before this line.
+             *       input is last thing to be update before this frame ends.
+             *       delta_time is 0 as of now, might be needed in future, in scenario,
+             *       like discard some input if delta_time crosses frame threshold.
+             */
+            input_update(delta_time);
+
+            /* Update last time. */
+            app_state.last_time = current_time;
+        }
     }
 
     app_state.is_running = FALSE;
