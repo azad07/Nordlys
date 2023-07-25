@@ -22,10 +22,10 @@ struct game;
  */
 typedef struct application_config
 {
-    /**
-     * @brief window starting position x axis, if applicable.
-     *
-     */
+/**
+ * @brief window starting position x axis, if applicable.
+ *
+ */
     i16 start_pos_x;
 
     /**
@@ -50,7 +50,7 @@ typedef struct application_config
      * @brief The application name used in windowing, if applicable.
      *
      */
-    char *name;
+    char* name;
 } application_config;
 
 /**
@@ -59,7 +59,7 @@ typedef struct application_config
  * @param game_instance The game instance.
  * @return true if the application was successfully created, otherwise false.
  */
-NAPI b8 application_create(struct game *game_instance);
+NAPI b8 application_create(struct game* game_instance);
 
 /**
  * @brief starts the application.
