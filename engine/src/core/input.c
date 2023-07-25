@@ -15,17 +15,20 @@
 #include "core/logger.h"
 #include "nmemory.h"
 
-typedef struct keyboard_state {
+typedef struct keyboard_state
+{
     b8 keys[256];
 }keyboard_state;
 
-typedef struct mouse_state {
+typedef struct mouse_state
+{
     i16 x;
     i16 y;
     u8 buttons[BUTTON_MAX_BUTTONS];
 }mouse_state;
 
-typedef struct input_state {
+typedef struct input_state
+{
     keyboard_state keyboard_current;
     keyboard_state keyboard_previous;
 
@@ -49,17 +52,17 @@ b8 input_initialize()
 
 void input_shutdown()
 {
-    /* TODO: Add shutdown routines when needed in future. */
+/* TODO: Add shutdown routines when needed in future. */
     is_initialized = FALSE;
 }
 
 void input_update(f64 delta_time)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
-        /* boot out and print dbg msg. */
+/* boot out and print dbg msg. */
         NDEBUG(" Input subsystem not initialized. ");
-        return ;
+        return;
     }
 
     /* Copy current state to previous state. */
@@ -69,23 +72,23 @@ void input_update(f64 delta_time)
 
 void input_process_keyboard_key(keys key, b8 pressed)
 {
-    /* only handled if the state is actually changed. */
-    if(state.keyboard_current.keys[key] != pressed)
+/* only handled if the state is actually changed. */
+    if (state.keyboard_current.keys[key] != pressed)
     {
-        /* update internal state. */
+/* update internal state. */
         state.keyboard_current.keys[key] = pressed;
 
         /* Fire off an event for immediate processing. */
         event_context context;
         context.data.u16[0] = key;
-        event_fire(pressed ? EVENT_CODE_KEY_PRESSED : EVENT_CODE_KEY_RELEASED, 0 /* no sender trackder needed*/, context );        
+        event_fire(pressed ? EVENT_CODE_KEY_PRESSED : EVENT_CODE_KEY_RELEASED, 0 /* no sender trackder needed*/, context);
     }
 }
 
 void input_process_mouse_button(buttons button, b8 pressed)
 {
-    /* If the state changed, fire an event. */
-    if(state.mouse_current.buttons[button] != pressed)
+/* If the state changed, fire an event. */
+    if (state.mouse_current.buttons[button] != pressed)
     {
         state.mouse_current.buttons[button] = pressed;
 
@@ -96,15 +99,16 @@ void input_process_mouse_button(buttons button, b8 pressed)
     }
 }
 
-void input_process_mouse_move(i32 x, i32 y) {
-    /* only process when there is change in mouse coordinates. */
+void input_process_mouse_move(i32 x, i32 y)
+{
+/* only process when there is change in mouse coordinates. */
     if (state.mouse_current.x != x ||
-        state.mouse_current.y != y) 
+        state.mouse_current.y != y)
     {
-        /* NOTE: enable this for mouse debugging. */
-        //NDEBUG("Mouse pos: %i, %i!", x, y);
-        
-        /* update internal state. */
+/* NOTE: enable this for mouse debugging. */
+//NDEBUG("Mouse pos: %i, %i!", x, y);
+
+/* update internal state. */
         state.mouse_current.x = x;
         state.mouse_current.y = y;
 
@@ -116,14 +120,14 @@ void input_process_mouse_move(i32 x, i32 y) {
     }
 }
 
-void input_process_mouse_wheel(i8 z_delta) 
+void input_process_mouse_wheel(i8 z_delta)
 {
-    /* NOTE: enable this for mouse wheel debugging. */
-    //NDEBUG(" Mouse wheel moved: %i", z_delta);
+/* NOTE: enable this for mouse wheel debugging. */
+//NDEBUG(" Mouse wheel moved: %i", z_delta);
 
-    /* NOTE: no internal event to update. */
+/* NOTE: no internal event to update. */
 
-    /* Fire the event. */
+/* Fire the event. */
     event_context context;
     context.data.i8[0] = z_delta;
     event_fire(EVENT_CODE_MOUSE_WHEEL, 0, context);
@@ -131,7 +135,7 @@ void input_process_mouse_wheel(i8 z_delta)
 
 b8 input_is_key_down(keys key)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -140,7 +144,7 @@ b8 input_is_key_down(keys key)
 
 b8 input_is_key_up(keys key)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -149,7 +153,7 @@ b8 input_is_key_up(keys key)
 
 b8 input_was_key_down(keys key)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -158,7 +162,7 @@ b8 input_was_key_down(keys key)
 
 b8 input_was_key_up(keys key)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -167,7 +171,7 @@ b8 input_was_key_up(keys key)
 
 b8 input_is_button_down(buttons button)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -176,7 +180,7 @@ b8 input_is_button_down(buttons button)
 
 b8 input_is_button_up(buttons button)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -185,7 +189,7 @@ b8 input_is_button_up(buttons button)
 
 b8 input_was_button_down(buttons button)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -194,7 +198,7 @@ b8 input_was_button_down(buttons button)
 
 b8 input_was_button_up(buttons button)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         return FALSE;
     }
@@ -203,23 +207,23 @@ b8 input_was_button_up(buttons button)
 
 void input_get_mouse_position(i32* x, i32* y)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         *x = 0;
         *y = 0;
-        return ;
+        return;
     }
     *x = state.mouse_current.x;
     *y = state.mouse_current.y;
 }
 
-void input_get_previous_mouse_position(i32* x, i32 *y)
+void input_get_previous_mouse_position(i32* x, i32* y)
 {
-    if(!is_initialized)
+    if (!is_initialized)
     {
         *x = 0;
         *y = 0;
-        return ;
+        return;
     }
     *x = state.mouse_previous.x;
     *y = state.mouse_previous.y;

@@ -22,7 +22,8 @@
   *
   */
 
-enum {
+enum
+{
     DARRAY_CAPACITY = 0,
     DARRAY_LENGTH,
     DARRAY_STRIDE,

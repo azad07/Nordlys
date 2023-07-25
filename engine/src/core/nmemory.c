@@ -25,7 +25,7 @@ typedef struct memory_stats
     u64 tagged_allocations[MEMORY_TAG_MAX_TAGS];
 } memory_stats;
 
-static const char *memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
+static const char* memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
     "UNKNOWN    ",
     "ARRAY      ",
     "DARRAY     ",
@@ -42,7 +42,7 @@ static const char *memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
     "TRANSFORM  ",
     "ENTITY     ",
     "ENTITY_NODE",
-    "SCENE      "};
+    "SCENE      " };
 
 static memory_stats stats;
 
@@ -55,7 +55,7 @@ void shutdown_memory()
 {
 }
 
-void *nallocate(u64 size, memory_tag m_tag)
+void* nallocate(u64 size, memory_tag m_tag)
 {
     if (m_tag == MEMORY_TAG_UNKNOWN)
     {
@@ -66,13 +66,13 @@ void *nallocate(u64 size, memory_tag m_tag)
     stats.tagged_allocations[m_tag] += size;
 
     // TODO: memory allignment.
-    void *memory_block = platform_allocate(size, FALSE);
+    void* memory_block = platform_allocate(size, FALSE);
     NASSERT(memory_block);
     platform_zero_memory(memory_block, size);
     return memory_block;
 }
 
-void nfree(void *block, u64 size, memory_tag m_tag)
+void nfree(void* block, u64 size, memory_tag m_tag)
 {
     if (m_tag == MEMORY_TAG_UNKNOWN)
     {
@@ -86,22 +86,22 @@ void nfree(void *block, u64 size, memory_tag m_tag)
     platform_free(block, FALSE);
 }
 
-void *nzero_memory(void *block, u64 size)
+void* nzero_memory(void* block, u64 size)
 {
     return platform_zero_memory(block, size);
 }
 
-void *ncopy_memory(void *dest, const void *src, u64 size)
+void* ncopy_memory(void* dest, const void* src, u64 size)
 {
     return platform_copy_memory(dest, src, size);
 }
 
-void *nset_memory(void *dest, i32 value, u64 size)
+void* nset_memory(void* dest, i32 value, u64 size)
 {
     return platform_set_memory(dest, value, size);
 }
 
-char *get_memory_usage_str()
+char* get_memory_usage_str()
 {
     const u64 gib = 1024 * 1024 * 1024;
     const u64 mib = 1024 * 1024;
@@ -141,6 +141,6 @@ char *get_memory_usage_str()
         offset += length;
     }
 
-    char *out_string = strdup(buffer);
+    char* out_string = strdup(buffer);
     return out_string;
 }

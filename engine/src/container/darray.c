@@ -1,21 +1,21 @@
 /**
  * @file darray.c
  * @author Ashish Azad (ashish.azad07@gmail.com)
- * @brief 
+ * @brief
  * @version 1.0
  * @date 2023-07-09
- * 
+ *
  * @copyright Nordlys Game Engine is Copyright (c) Ashish Azad 2023.
- * 
+ *
  */
 
- #include "container/darray.h"
+#include "container/darray.h"
 
- #include "core/nmemory.h"
- #include "core/logger.h"
- #include "core/asserts.h"
+#include "core/nmemory.h"
+#include "core/logger.h"
+#include "core/asserts.h"
 
-void* _darray_create(u64 length, u64 stride) 
+void* _darray_create(u64 length, u64 stride)
 {
     u64 header_size = DARRAY_FIELD_LENGTH * sizeof(u64);
     u64 array_size = length * stride;
@@ -58,9 +58,9 @@ void* _darray_resize(void* array)
     u64 stride = darray_stride(array);
 
     void* new_array = _darray_create(
-        (DARRAY_RESIZE_FACTOR * darray_capacity(array)), 
+        (DARRAY_RESIZE_FACTOR * darray_capacity(array)),
         stride);
-    
+
     ncopy_memory(new_array, array, length * stride);
 
     darray_length_set(new_array, length);
@@ -74,7 +74,7 @@ void* _darray_push(void* array, const void* value_ptr)
     u64 length = darray_length(array);
     u64 stride = darray_stride(array);
 
-    if(length >= darray_capacity(array))
+    if (length >= darray_capacity(array))
     {
         array = _darray_resize(array);
     }
@@ -101,7 +101,7 @@ void* _darray_pop_at(void* array, u64 index, void* dest)
 {
     u64 length = darray_length(array);
     u64 stride = darray_stride(array);
-    if(index >=  length)
+    if (index >= length)
     {
         NERROR("Index out of bound! Length: %i, index: %d", length, index);
         return array;
@@ -111,7 +111,7 @@ void* _darray_pop_at(void* array, u64 index, void* dest)
     ncopy_memory(dest, (void*)(addr + (index * stride)), stride);
 
     /* if not the last element, adjust the array length, copy it. */
-    if(index != length-1)
+    if (index != length - 1)
     {
         ncopy_memory(
             (void*)(addr + (index * stride)),
@@ -130,13 +130,13 @@ void* _darray_insert_at(void* array, u64 index, void* value_ptr)
     u64 length = darray_length(array);
     u64 stride = darray_stride(array);
 
-    if(index >=  length)
+    if (index >= length)
     {
         NERROR("Index out of bound! Length: %i, index: %d", length, index);
         return array;
     }
 
-    if(length >= darray_capacity(array))
+    if (length >= darray_capacity(array))
     {
         array = _darray_resize(array);
     }
@@ -144,7 +144,7 @@ void* _darray_insert_at(void* array, u64 index, void* value_ptr)
     u64 addr = (u64)array;
 
     /* If not the last element, copy the rest outward. */
-    if(index != length - 1)
+    if (index != length - 1)
     {
         ncopy_memory(
             (void*)(addr + ((index + 1) * stride)),
@@ -154,8 +154,8 @@ void* _darray_insert_at(void* array, u64 index, void* value_ptr)
     }
 
     /* set the value at the index. */
-    ncopy_memory( 
-        (void*)( addr + (index * stride)),
+    ncopy_memory(
+        (void*)(addr + (index * stride)),
         value_ptr,
         stride
     );

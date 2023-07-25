@@ -22,7 +22,7 @@
 
 typedef struct application_state
 {
-    game *game_instance;
+    game* game_instance;
     b8 is_running;
     b8 is_suspended;
     platform_state platform;
@@ -38,7 +38,7 @@ static application_state app_state;
 b8 application_on_evnent(u16 code, void* sender, void* listener, event_context context);
 b8 application_on_keyboard_event(u16 code, void* sender, void* listerner, event_context context);
 
-b8 application_create(struct game *game_instance)
+b8 application_create(struct game* game_instance)
 {
     if (initialized == TRUE)
     {
@@ -52,9 +52,9 @@ b8 application_create(struct game *game_instance)
     logging_initialize();
 
     /* Initialize input system. */
-    if(!input_initialize())
+    if (!input_initialize())
     {
-        /* Game can continue rendering, but there will be no control. */
+/* Game can continue rendering, but there will be no control. */
         NDEBUG("Input sytem initialization failed, keyboard/moure/other input will not work.");
     }
 
@@ -70,14 +70,14 @@ b8 application_create(struct game *game_instance)
     app_state.is_suspended = FALSE;
 
     /* Initialize event system. */
-    if(event_initialize() == FALSE)
+    if (event_initialize() == FALSE)
     {
         NERROR("Evnet System FAILED initialization. Shuting Down applcation.");
         return FALSE;
     }
 
     /* Register events */
-    event_register(EVENT_CODE_APPLICATION_SHUTDOWN, 0 , application_on_evnent);
+    event_register(EVENT_CODE_APPLICATION_SHUTDOWN, 0, application_on_evnent);
     event_register(EVENT_CODE_KEY_PRESSED, 0, application_on_keyboard_event);
     event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_keyboard_event);
 
@@ -134,23 +134,23 @@ b8 application_run()
             break;
         }
 
-        /* NOTE: Input update/state copying should always be handled, after any 
+        /* NOTE: Input update/state copying should always be handled, after any
          *       input is recorded, i.e. before this line.
          *       input is last thing to be update before this frame ends.
          *       delta_time is 0 as of now, might be needed in future, in scenario,
          *       like discard some input if delta_time crosses frame threshold.
          */
-         input_update(0 /* delta_time */);
+        input_update(0 /* delta_time */);
     }
 
     app_state.is_running = FALSE;
 
     /* Shuting down event system and unregister all the event registered to it. */
-    event_unregister(EVENT_CODE_APPLICATION_SHUTDOWN, 0 , application_on_evnent);
+    event_unregister(EVENT_CODE_APPLICATION_SHUTDOWN, 0, application_on_evnent);
     event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_keyboard_event);
     event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_keyboard_event);
     event_shutdown();
-    
+
     /* Shuting down input system. */
     input_shutdown();
 
@@ -158,9 +158,11 @@ b8 application_run()
     return TRUE;
 }
 
-b8 application_on_evnent(u16 code, void* sender, void* listener, event_context context) {
-    /* TODO: Fix UNUSED variable for compile warnings. */
-    switch (code) {
+b8 application_on_evnent(u16 code, void* sender, void* listener, event_context context)
+{
+/* TODO: Fix UNUSED variable for compile warnings. */
+    switch (code)
+    {
     case EVENT_CODE_APPLICATION_SHUTDOWN:
     {
         NINFO("CODE_APPLICATION_SHUTDOWN received, shutting down application.. taa taa, baa, baa. ");
@@ -175,12 +177,12 @@ b8 application_on_evnent(u16 code, void* sender, void* listener, event_context c
 
 b8 application_on_keyboard_event(u16 code, void* sender, void* listerner, event_context context)
 {
-    if(code == EVENT_CODE_KEY_PRESSED)
+    if (code == EVENT_CODE_KEY_PRESSED)
     {
         u16 key_code = context.data.u16[0];
-        if(key_code == KEY_ESCAPE)
+        if (key_code == KEY_ESCAPE)
         {
-            /* NOTE: firing an event to itself, but there may be other listeners. */
+/* NOTE: firing an event to itself, but there may be other listeners. */
             event_context context = {};
             event_fire(EVENT_CODE_APPLICATION_SHUTDOWN, 0, context);
 
@@ -189,19 +191,20 @@ b8 application_on_keyboard_event(u16 code, void* sender, void* listerner, event_
         }
         else if (key_code == KEY_A)
         {
-            /* NOTE: example for checking for a key. */
+/* NOTE: example for checking for a key. */
             NTRACE("Explicit - A key pressed. ");
         }
-        else{
+        else
+        {
             NTRACE(" '%c' key pressed in window.", key_code);
         }
     }
-    else if ( code == EVENT_CODE_KEY_RELEASED)
+    else if (code == EVENT_CODE_KEY_RELEASED)
     {
         u16 key_code = context.data.u16[0];
-        if(key_code == KEY_B)
+        if (key_code == KEY_B)
         {
-            /* NOTE: example for checking on release key. */
+/* NOTE: example for checking on release key. */
             NTRACE("Explicit - B key released. ");
         }
         else
