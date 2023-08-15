@@ -17,7 +17,7 @@ compilerFlags="-g -rdynamic -fPIC -fdeclspec "
 # -fms-extensions 
 # -Wall -Werror
 includeFlags="-Isrc -I$VULKAN_SDK/include -I../engine/src"
-linkerFlags="-L./../bin/ -lengine"
+linkerFlags="-L./../bin/ -lengine -lvulkan"
 defines="-D_DEBUG -DNEXPORT"
 
 echo "$(tput setaf 1)Building $assembly...$(tput setaf 7)"

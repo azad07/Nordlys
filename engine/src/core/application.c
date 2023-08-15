@@ -21,6 +21,8 @@
 #include "core/input.h"
 #include "core/timer.h"
 
+#include "renderer/renderer_forntend.h"
+
 typedef struct application_state
 {
     game* game_instance;
@@ -93,6 +95,13 @@ b8 application_create(struct game* game_instance)
         return FALSE;
     }
 
+    /* Initialize the renderer, here we can choose renderer backend, (VULKAN/OPENGL/METAL/DIRECTX etc.) */
+    if (!renderer_initialize(game_instance->app_config.name, &app_state.platform))
+    {
+        NFATAL("Failed to initialize renderer backend(VULKAN/OPENGL/METAL/DIRECTX) depneding upon platform best choice, Aborting application....");
+        return FALSE;
+    }
+
     /* Initialize the game. */
     if (!app_state.game_instance->initialize(app_state.game_instance))
     {
@@ -149,6 +158,11 @@ b8 application_run()
                 break;
             }
 
+            /* TODO: prepare render packet with all the render command rather passing delta time between frame. */
+            render_packet packet;
+            packet.delta_time = delta_time;
+            renderer_draw_frame(&packet);
+            
             /* Figure out how long the frame took. */
             f64 frame_end_time = platform_get_absolute_time();
             f64 frame_elapsed_time = frame_end_time - frame_start_time;
@@ -189,6 +203,9 @@ b8 application_run()
     event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_keyboard_event);
     event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_keyboard_event);
     event_shutdown();
+
+    /* Shuting down renderering system. */
+    renderer_shutdown();
 
     /* Shuting down input system. */
     input_shutdown();
