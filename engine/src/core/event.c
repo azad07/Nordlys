@@ -127,7 +127,7 @@ b8 event_unregister(u16 code, void* listener_instance, PFN_on_event on_evnet)
    u64 registered_events_count = darray_length(state.registered[code].events);
    for (u64 i = 0; i < registered_events_count; ++i)
    {
-      registered_event e = state.registered[i].events[i];
+      registered_event e = state.registered[code].events[i];
       if (e.listener == listener_instance && e.callback == on_evnet)
       {
 /* found, remove it. */
