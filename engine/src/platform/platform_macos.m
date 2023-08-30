@@ -5,6 +5,8 @@
 #include "core/logger.h"
 #include "core/input.h"
 
+#include "container/darray.h"
+
 #include <crt_externs.h>
 #include <mach/mach_time.h>
 
@@ -447,7 +449,8 @@ void platform_sleep(u64 ms) {
 }
 
 void platform_get_required_extension_names(const char ***names_darray) {
-  // FIXME: darray_push(*names_darray, &"VK_EXT_metal_surface");
+  darray_push(*names_darray, &"VK_EXT_metal_surface");
+  darray_push(*names_darray, &"VK_KHR_portability_enumeration");
 }
 
 // FIXME:
